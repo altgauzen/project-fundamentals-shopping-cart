@@ -1,3 +1,5 @@
+const baseUrl = 'https://api.mercadolibre.com/sites/MLB/';
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -12,11 +14,11 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function createProductItemElement({ sku, name, image }) {
+function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   const section = document.createElement('section');
   section.className = 'item';
 
-  section.appendChild(createCustomElement('span', 'item__sku', sku));
+  section.appendChild(createCustomElement('span', 'item__sku', sku)); 
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
   section.appendChild(
@@ -26,30 +28,35 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-async function getApiProduct() {
-  try {
-    fetch('https://api.mercadolibre.com/sites/MLB/search?q=$computador')
-      .then((response) => response.json())
-      .then((object) => object.results)
-      .then((results) => {
-        results.forEach((element) => {
-          const objProduct = {
-            sku: element.id,
-            name: element.title,
-            image: element.thumbnail,
-            salePrice: element.price,
-          };
-          document.querySelector('.items').appendChild(createProductItemElement(objProduct));
-        });
-      });
-  } catch (erro) {
-    alert(`Produto não encontrado  ${erro}`);
-  }
+/*  const createCart = (results) => {
+  results.forEach((element) => {
+    const objProduct = {
+      sku: element.id,
+      name: element.title,
+      image: element.thumbnail,
+      salePrice: element.price,
+    };
+    document.querySelector('.items').appendChild(createProductItemElement(objProduct));
+  });
+};  */
+
+/*  function getSkuFromProductItem(id) {
+  const idForSearch = id.target.querySelector('span.item__sku').innerText;
+  console.log(idForSearch);
+}  */
+
+function getId(event) {
+  const id = event.target.parentElement.firstElementChild.innerText;
+  //  console.log(id);
 }
 
-/*  function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}  */
+const getIdOnClick = () => {
+  document.querySelectorAll('item__add')
+    .forEach((button) => {
+    button.addEventListener('click', getId);
+    //  console.log(button);
+  });
+};
 
 /*  function cartItemClickListener(event) {
   // coloque seu código aqui
@@ -63,6 +70,20 @@ async function getApiProduct() {
   return li;
 }  */
 
-window.onload = () => {
-  getApiProduct();
+//  já tinha concluido o requisito 1, porém refiz seguindo a lógica do Oliva:
+
+async function getApiProduct() {
+  const response = await fetch(`${baseUrl}/search?q=computador`);
+  const product = await response.json();
+  return product;
+}
+
+window.onload = async () => {
+  const product = await getApiProduct();
+  product.results.forEach((product) => {
+    const element = createProductItemElement(product);
+    
+    const items = document.querySelector('.items');
+    items.appendChild(element);
+  });
 };
