@@ -62,8 +62,8 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 function getItemInfos(id) {
   return fetch(`https://api.mercadolibre.com/items/${id}`)
     .then((response) => response.json())
-    .then(data => createCartItemElement(data))
-    .then(data => document.querySelector('.cart__items').appendChild(data));
+    .then((data) => createCartItemElement(data))
+    .then((data) => document.querySelector('.cart__items').appendChild(data));
 }
 
 function getSkuFromProductItem(event) {
