@@ -40,35 +40,7 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   });
 };  */
 
-/*  function getSkuFromProductItem(id) {
-  const idForSearch = id.target.querySelector('span.item__sku').innerText;
-  console.log(idForSearch);
-}  */
 
-/*  function getId(event) {
-  const id = event.target.parentElement.firstElementChild.innerText;
-  //  console.log(id);
-}  */
-
-/*  const getIdOnClick = () => {
-  document.querySelectorAll('item__add')
-    .forEach((button) => {
-    button.addEventListener('click', getId);
-    //  console.log(button);
-  });
-};  */
-
-/*  function cartItemClickListener(event) {
-  // coloque seu código aqui
-}  */
-
-/*  function createCartItemElement({ sku, name, salePrice }) {
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
-  return li;
-}  */
 
 //  já tinha concluido o requisito 1, porém refiz seguindo a lógica do Oliva:
 
@@ -78,12 +50,57 @@ async function getApiProduct() {
   return productApi;
 }
 
+// R2.1 - Ao clicar no botao de nome Adicionar ao carrinho! de cada produto
+//  na página HTML, deve obter o id do produto para inserí-lo no endpoint:
+
+function getIdOnClick() {
+  document.querySelectorAll('.item__add')
+    .forEach((button) => {
+   button.addEventListener('click', getSkuFromProductItem);
+  });
+}
+
+function getSkuFromProductItem(event) {
+  const idForSearch = event.target.parentNode.firstChild.innerText;
+  console.log(idForSearch);
+  getItemInfos(idForSearch);
+}
+
+//  R2.2 - realizar uma requisição para o endpoint,
+//  onde $ItemID deve ser o valor id do item selecionado.:
+
+function getItemInfos(id) {
+  return fetch(`https://api.mercadolibre.com/items/${id}`)
+    .then((response) => response.json())
+    .then(data => createCartItemElement(data))
+    .then(data => document.querySelector('.cart__items').appendChild(data));
+}
+
+// R2.3 - Você deve utilizar a função createCartItemElement() para
+//  criar os componentes HTML referentes a um item do carrinho:
+
+function createCartItemElement({ id: sku, title: name, price: salePrice }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.addEventListener('click', cartItemClickListener);
+  return li;
+}
+
+//  R2.4 - Adicione o elemento retornado da função createCartItemElement(product)
+//  como filho do elemento <ol class="cart__items">.
+
+/*  function cartItemClickListener(event) {
+  
+}  */
+
 window.onload = async () => {
   const products = await getApiProduct();
+  const items = document.querySelector('.items');
   products.results.forEach((product) => {
     const element = createProductItemElement(product);
     
-    const items = document.querySelector('.items');
     items.appendChild(element);
   });
+  getIdOnClick();
 };
