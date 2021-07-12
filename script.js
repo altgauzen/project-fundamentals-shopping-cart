@@ -79,8 +79,8 @@ async function getApiProduct() {
 }
 
 window.onload = async () => {
-  const product = await getApiProduct();
-  product.results.forEach((product) => {
+  const products = await getApiProduct();
+  products.results.forEach((product) => {
     const element = createProductItemElement(product);
     
     const items = document.querySelector('.items');
