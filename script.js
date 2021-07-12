@@ -45,18 +45,18 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   console.log(idForSearch);
 }  */
 
-function getId(event) {
+/*  function getId(event) {
   const id = event.target.parentElement.firstElementChild.innerText;
   //  console.log(id);
-}
+}  */
 
-const getIdOnClick = () => {
+/*  const getIdOnClick = () => {
   document.querySelectorAll('item__add')
     .forEach((button) => {
     button.addEventListener('click', getId);
     //  console.log(button);
   });
-};
+};  */
 
 /*  function cartItemClickListener(event) {
   // coloque seu código aqui
@@ -74,8 +74,8 @@ const getIdOnClick = () => {
 
 async function getApiProduct() {
   const response = await fetch(`${baseUrl}/search?q=computador`);
-  const product = await response.json();
-  return product;
+  const productApi = await response.json();
+  return productApi;
 }
 
 window.onload = async () => {
