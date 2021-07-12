@@ -40,8 +40,6 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   });
 };  */
 
-
-
 //  já tinha concluido o requisito 1, porém refiz seguindo a lógica do Oliva:
 
 async function getApiProduct() {
@@ -53,17 +51,17 @@ async function getApiProduct() {
 // R2.1 - Ao clicar no botao de nome Adicionar ao carrinho! de cada produto
 //  na página HTML, deve obter o id do produto para inserí-lo no endpoint:
 
+function getSkuFromProductItem(event) {
+  const idForSearch = event.target.parentNode.firstChild.innerText;
+  console.log(idForSearch);
+  getItemInfos(idForSearch);
+}
+
 function getIdOnClick() {
   document.querySelectorAll('.item__add')
     .forEach((button) => {
    button.addEventListener('click', getSkuFromProductItem);
   });
-}
-
-function getSkuFromProductItem(event) {
-  const idForSearch = event.target.parentNode.firstChild.innerText;
-  console.log(idForSearch);
-  getItemInfos(idForSearch);
 }
 
 //  R2.2 - realizar uma requisição para o endpoint,
@@ -83,7 +81,7 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
+  //  li.addEventListener('click', cartItemClickListener);
   return li;
 }
 
