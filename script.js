@@ -40,7 +40,7 @@ async function getApiProduct() {
 
 // R2.1 - Ao clicar no botao de nome Adicionar ao carrinho! de cada produto
 //  na página HTML, deve obter o id do produto para inserí-lo no endpoint:
-//button.addEventListener('click', button.target.remove());
+//  button.addEventListener('click', button.target.remove());
 
 function emptyFullCart() {
   cartItem.innerHTML = '';
