@@ -51,6 +51,21 @@ async function getApiProduct() {
 // R2.1 - Ao clicar no botao de nome Adicionar ao carrinho! de cada produto
 //  na página HTML, deve obter o id do produto para inserí-lo no endpoint:
 
+function createCartItemElement({ id: sku, title: name, price: salePrice }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  //  li.addEventListener('click', cartItemClickListener);
+  return li;
+}
+
+function getItemInfos(id) {
+  return fetch(`https://api.mercadolibre.com/items/${id}`)
+    .then((response) => response.json())
+    .then(data => createCartItemElement(data))
+    .then(data => document.querySelector('.cart__items').appendChild(data));
+}
+
 function getSkuFromProductItem(event) {
   const idForSearch = event.target.parentNode.firstChild.innerText;
   console.log(idForSearch);
@@ -67,23 +82,8 @@ function getIdOnClick() {
 //  R2.2 - realizar uma requisição para o endpoint,
 //  onde $ItemID deve ser o valor id do item selecionado.:
 
-function getItemInfos(id) {
-  return fetch(`https://api.mercadolibre.com/items/${id}`)
-    .then((response) => response.json())
-    .then(data => createCartItemElement(data))
-    .then(data => document.querySelector('.cart__items').appendChild(data));
-}
-
 // R2.3 - Você deve utilizar a função createCartItemElement() para
 //  criar os componentes HTML referentes a um item do carrinho:
-
-function createCartItemElement({ id: sku, title: name, price: salePrice }) {
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  //  li.addEventListener('click', cartItemClickListener);
-  return li;
-}
 
 //  R2.4 - Adicione o elemento retornado da função createCartItemElement(product)
 //  como filho do elemento <ol class="cart__items">.
