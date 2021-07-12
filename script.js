@@ -1,4 +1,6 @@
 const baseUrl = 'https://api.mercadolibre.com/sites/MLB/';
+const cartItem = document.getElementsByClassName('cart__items')[0];
+const emptyButton = document.querySelector('.empty-cart');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -38,6 +40,11 @@ async function getApiProduct() {
 
 // R2.1 - Ao clicar no botao de nome Adicionar ao carrinho! de cada produto
 //  na página HTML, deve obter o id do produto para inserí-lo no endpoint:
+//button.addEventListener('click', button.target.remove());
+
+function emptyFullCart() {
+  cartItem.innerHTML = '';
+}
 
 function cartItemClickListener(event) {
   event.target.remove(event.li);
@@ -55,7 +62,8 @@ function getItemInfos(id) {
   return fetch(`https://api.mercadolibre.com/items/${id}`)
     .then((response) => response.json())
     .then((data) => createCartItemElement(data))
-    .then((data) => document.querySelector('.cart__items').appendChild(data));
+    .then((data) => document.querySelector('.cart__items').appendChild(data))
+    .then((data) => localStorage.setItem(data));
 }
 
 function getSkuFromProductItem(event) {
@@ -80,4 +88,5 @@ window.onload = async () => {
     items.appendChild(element);
   });
   getIdOnClick();
+  emptyButton.addEventListener('click', emptyFullCart);
 };
