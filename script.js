@@ -2,12 +2,12 @@ const baseUrl = 'https://api.mercadolibre.com/sites/MLB/';
 const cartItem = document.getElementsByClassName('cart__items')[0];
 const emptyButton = document.querySelector('.empty-cart');
 
-//const localStorageItems = JSON.parse(localStorage.getItem('items'));
-//let lsitems = localStorage.getItem('items') !== null ? localStorageItems : [];
+//  const localStorageItems = JSON.parse(localStorage.getItem('items'));
+//  let lsitems = localStorage.getItem('items') !== null ? localStorageItems : [];
 
-//const updateLocalStorage = () => {
+//  const updateLocalStorage = () => {
 //  localStorage.setItem('cartItems', JSON.stringify(lsitems));
-//};
+//  ;
 
 /*  const updateLocalStorage = () => {
   localStorage.setItem('cartItems', JSON.stringify(localStorageItems));
