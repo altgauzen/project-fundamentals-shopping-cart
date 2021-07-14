@@ -2,6 +2,17 @@ const baseUrl = 'https://api.mercadolibre.com/sites/MLB/';
 const cartItem = document.getElementsByClassName('cart__items')[0];
 const emptyButton = document.querySelector('.empty-cart');
 
+//const localStorageItems = JSON.parse(localStorage.getItem('items'));
+//let lsitems = localStorage.getItem('items') !== null ? localStorageItems : [];
+
+//const updateLocalStorage = () => {
+//  localStorage.setItem('cartItems', JSON.stringify(lsitems));
+//};
+
+/*  const updateLocalStorage = () => {
+  localStorage.setItem('cartItems', JSON.stringify(localStorageItems));
+};  */
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -40,7 +51,10 @@ async function getApiProduct() {
 
 // R2.1 - Ao clicar no botao de nome Adicionar ao carrinho! de cada produto
 //  na página HTML, deve obter o id do produto para inserí-lo no endpoint:
-//  button.addEventListener('click', button.target.remove());
+
+function displayLoading() {
+  document.querySelector('loading').remove();
+}
 
 function emptyFullCart() {
   cartItem.innerHTML = '';
@@ -55,6 +69,8 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
+  //  console.log(li); 
+  //  updateLocalStorage();
   return li;
 }
 
@@ -62,13 +78,12 @@ function getItemInfos(id) {
   return fetch(`https://api.mercadolibre.com/items/${id}`)
     .then((response) => response.json())
     .then((data) => createCartItemElement(data))
-    .then((data) => document.querySelector('.cart__items').appendChild(data))
-    .then((data) => localStorage.setItem(data));
+    .then((data) => document.querySelector('.cart__items').appendChild(data));
 }
 
 function getSkuFromProductItem(event) {
   const idForSearch = event.target.parentNode.firstChild.innerText;
-  console.log(idForSearch);
+  //  console.log(idForSearch);
   getItemInfos(idForSearch);
 }
 
@@ -81,10 +96,10 @@ function getIdOnClick() {
 
 window.onload = async () => {
   const products = await getApiProduct();
+  document.querySelector('.loading').remove();
   const items = document.querySelector('.items');
-  products.results.forEach((product) => {
+    products.results.forEach((product) => {
     const element = createProductItemElement(product);
-    
     items.appendChild(element);
   });
   getIdOnClick();
