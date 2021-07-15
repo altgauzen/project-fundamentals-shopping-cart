@@ -2,16 +2,9 @@ const baseUrl = 'https://api.mercadolibre.com/sites/MLB/';
 const cartItem = document.getElementsByClassName('cart__items')[0];
 const emptyButton = document.querySelector('.empty-cart');
 
-//  const localStorageItems = JSON.parse(localStorage.getItem('items'));
-//  let lsitems = localStorage.getItem('items') !== null ? localStorageItems : [];
-
-//  const updateLocalStorage = () => {
-//  localStorage.setItem('cartItems', JSON.stringify(lsitems));
-//  ;
-
-/*  const updateLocalStorage = () => {
-  localStorage.setItem('cartItems', JSON.stringify(localStorageItems));
-};  */
+function updateLocalStorage() {
+  localStorage.setItem('cartItemsSaved', cartItem.innerHTML);
+}
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -53,15 +46,17 @@ async function getApiProduct() {
 //  na página HTML, deve obter o id do produto para inserí-lo no endpoint:
 
 function displayLoading() {
-  document.querySelector('loading').remove();
+  document.querySelector('.loading').remove();
 }
 
 function emptyFullCart() {
   cartItem.innerHTML = '';
+  updateLocalStorage();
 }
 
 function cartItemClickListener(event) {
   event.target.remove(event.li);
+  updateLocalStorage();
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -69,8 +64,7 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
-  //  console.log(li); 
-  //  updateLocalStorage();
+  console.log(li);
   return li;
 }
 
@@ -78,7 +72,10 @@ function getItemInfos(id) {
   return fetch(`https://api.mercadolibre.com/items/${id}`)
     .then((response) => response.json())
     .then((data) => createCartItemElement(data))
-    .then((data) => document.querySelector('.cart__items').appendChild(data));
+    .then((data) => {
+      document.querySelector('.cart__items').appendChild(data);
+      updateLocalStorage();
+    });
 }
 
 function getSkuFromProductItem(event) {
@@ -96,7 +93,7 @@ function getIdOnClick() {
 
 window.onload = async () => {
   const products = await getApiProduct();
-  document.querySelector('.loading').remove();
+  displayLoading();
   const items = document.querySelector('.items');
     products.results.forEach((product) => {
     const element = createProductItemElement(product);
@@ -104,4 +101,5 @@ window.onload = async () => {
   });
   getIdOnClick();
   emptyButton.addEventListener('click', emptyFullCart);
+  cartItem.innerHTML = localStorage.getItem(cartItemsSaved);
 };
