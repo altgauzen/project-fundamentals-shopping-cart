@@ -1,7 +1,8 @@
 const baseUrl = 'https://api.mercadolibre.com/sites/MLB/';
 const cartItem = document.getElementsByClassName('cart__items')[0];
 const emptyButton = document.querySelector('.empty-cart');
-const cartItemsSaved = '';
+
+cartItem.innerHTML = localStorage.getItem('cartItemsSaved');
 
 function updateLocalStorage() {
   localStorage.setItem('cartItemsSaved', cartItem.innerHTML);
@@ -102,5 +103,4 @@ window.onload = async () => {
   });
   getIdOnClick();
   emptyButton.addEventListener('click', emptyFullCart);
-  cartItem.innerHTML = localStorage.getItem(cartItemsSaved);
 };
