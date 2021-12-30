@@ -1,7 +1,18 @@
-### Termos de acordos
+# project-fundamentals-shopping-cart
 
-Ao iniciar este projeto, você concorda com as diretrizes do Código de Ética e Conduta e do Manual da Pessoa Estudante da Trybe.
+## Meus Comentários
 
+Este foi um projeto individual feito na Trybe no Módulo de Fundamentos onde desenvolvi um carrinho de compras utilizando todos conhecimentos aprendidos em Fundamentos do Desenvolvimento Web.
+
+Aprendí neste Projeto a: 
+ - Fazer requisições a uma API *(Application Programming Interface)* do Mercado Livre;
+ - Utilizar os seus conhecimentos sobre JavaScript, CSS e HTML;
+ - Trabalhar com funções assíncronas;
+
+
+Aproveitamento: 85.71% de aprovação pelos avaliadores da Trybe.
+
+---
 # Boas vindas ao repositório do projeto de Carrinho de Compras!
 
 Você já usa o GitHub diariamente para desenvolver os exercícios, certo? Agora, para desenvolver os projetos, você deverá seguir as instruções a seguir. Fique atento a cada passo, e se tiver qualquer dúvida, nos envie por _Slack_! #vqv 🚀
